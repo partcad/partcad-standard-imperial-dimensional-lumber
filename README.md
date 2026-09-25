@@ -9,12 +9,15 @@ amounts ALSC PS 20 gives -- a nominal 1 in. is 3/4 in. actual, 2 to 7 in. lose
 length is not dressed: an 8 ft. board is 96 in. long. Plywood is named by its
 nominal thickness and is 1/32 in. thinner than that.
 
-The parameters are the nominal sizes; the geometry is the actual one.
+The size parameters are the nominal sizes; the geometry is the actual one. Each
+part also takes a `tolerance`: how precisely it is made, in millimetres -- 1.6
+(1/16 in.) for lumber and 0.8 (1/32 in.) for plywood by default, which is what a
+saw cuts either to and what a part cut from it has to be made to.
 
-| Part      | Parameters                                                   | Frame                                                   |
-|-----------|--------------------------------------------------------------|---------------------------------------------------------|
-| `lumber`  | `width`, `height` (nominal, in.), `length` (in.)             | width along X, length along Y, height along Z; eased long edges |
-| `plywood` | `width`, `length` (in.), `thickness` (nominal, in.)          | width along X, length along Y, thickness along Z        |
+| Part      | Parameters                                                                  | Frame                                                   |
+|-----------|-----------------------------------------------------------------------------|---------------------------------------------------------|
+| `lumber`  | `width`, `height` (nominal, in.), `length` (in.), `tolerance` (mm)          | width along X, length along Y, height along Z; eased long edges |
+| `plywood` | `width`, `length` (in.), `thickness` (nominal, in.), `tolerance` (mm)       | width along X, length along Y, thickness along Z        |
 
 Both have a corner at the origin, so a piece cut to length from a longer board
 is in the coordinates of the board it came from.
