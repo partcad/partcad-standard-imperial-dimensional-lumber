@@ -1,27 +1,97 @@
-desc: Dimensional lumber in imperial units
+partcad: ">=0.8.0"
+name: //pub/std/imperial/dimensional-lumber
+desc: Dimensional lumber and plywood in imperial units
+
+docs:
+  intro: |
+    The standard (US) sizes of softwood dimensional lumber and plywood, as
+    parametric parts.
+
+    A piece of lumber is named by its **nominal** size ("2x4"), which is the
+    size of the rough-sawn board before it is dried and planed. What is sold is
+    smaller, by the amounts ASME/ALSC PS 20 gives: a nominal 1 in. is 3/4 in.
+    actual, 2 to 7 in. lose 1/2 in., and 8 in. and up lose 3/4 in. -- so a 2x4
+    is 1-1/2 x 3-1/2 in. and a 2x8 is 1-1/2 x 7-1/4 in. The length is not
+    dressed, so an 8 ft. board is 96 in. long. Plywood is named by its nominal
+    thickness and is 1/32 in. thinner than that.
+
+    The parameters are the nominal sizes, the geometry is the actual one. Every
+    part is modelled in the same frame, so that a piece cut from a longer one is
+    in the coordinates of the board it came from:
+
+    * `lumber`: the width along X, the length along Y, the height (the
+      thickness of a board lying flat) along Z, with one corner at the origin.
+      The long edges are eased, the way milled lumber is.
+    * `plywood`: the width along X, the length along Y, the thickness along Z.
+
+    A store sells particular sizes of these. It says so by declaring each of its
+    products as an instance of `lumber` or `plywood` (an `enrich`) with the
+    product's own vendor and SKU -- see `//pub/svc/commerce/homedepot` -- and a
+    part cut to length from one names that product as its stock.
+
+  usage: |
+    ```shell
+    pc inspect -p width=4 -p height=2 -p length=96 :lumber
+    pc inspect -p thickness=0.75 :plywood
+    ```
+
+    From another package, as an instance of the standard size:
+
+    ```yaml
+    parts:
+      stud:
+        type: enrich
+        source: //pub/std/imperial/dimensional-lumber:lumber
+        with:
+          width: 4
+          height: 2
+          length: 92.625
+    ```
 
 parts:
   lumber:
     type: cadquery
+    desc: Softwood dimensional lumber, by its nominal size
     parameters:
       width:
         type: int
+        desc: The nominal width in inches (the "4" of a 2x4), along X
+        enum: [1, 2, 3, 4, 5, 6, 8, 10, 12]
         default: 4
       height:
         type: int
+        desc: The nominal thickness in inches (the "2" of a 2x4), along Z
+        enum: [1, 2, 3, 4, 5, 6, 8, 10, 12]
         default: 2
       length:
         type: float
+        desc: The length in inches, along Y. Not dressed, so it is the actual length
         default: 120
+      tolerance:
+        # 1/16 in.: what a board is sold to, and what a saw cuts one to.
+        type: float
+        desc: How precisely it is made, in millimetres
+        default: 1.6
   plywood:
     type: cadquery
+    desc: A plywood panel, by its nominal thickness
     parameters:
       width:
         type: float
+        desc: The width in inches, along X
         default: 48
       length:
         type: float
+        desc: The length in inches, along Y
         default: 48
       thickness:
         type: float
-        default: 0.5 # "size" units, close to "inches" but different
+        desc: >
+          The nominal thickness in inches, along Z (0.75 for the panel sold as
+          "3/4 in." or "23/32 in."). The actual thickness is 1/32 in. less
+        default: 0.5
+      tolerance:
+        # 1/32 in.: what a panel saw cuts a sheet to.
+        type: float
+        desc: How precisely it is made, in millimetres
+        default: 0.8
