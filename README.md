@@ -22,6 +22,30 @@ saw cuts either to and what a part cut from it has to be made to.
 Both have a corner at the origin, so a piece cut to length from a longer board
 is in the coordinates of the board it came from.
 
+## Ports
+
+Both parts implement `cuboid`: the box they fill, at their actual size, with a
+port at every corner and at the middle of every edge, on each face that meets
+there -- 48 in all. A port's +Z is the inward normal of its face, so two ports
+mate where two faces touch.
+
+A port is named by its face and then by where on that face it is: `z1-x0-y0` is
+on the top face (Z at its largest), at the corner it shares with the X = 0 and
+Y = 0 faces; `z1-x0` is on the top face, at the middle of its edge with the
+X = 0 face. At a corner, X and Y run along the two edges into the face; at the
+middle of an edge, X points into the face and Y runs along the edge. So:
+
+* two corners mate with their faces flush, in the same quadrant (a board butted
+  against another, flush with its end and its face);
+* a corner and the middle of an edge mate with the two edges in line;
+* two middles of edges mate with the edges crossed at right angles.
+
+The long edges of `lumber` are eased, so a corner is where two faces would meet.
+
+```shell
+pc render -t png --with-ports -p width=4 -p height=2 -p length=24 //pub/std/imperial/dimensional-lumber:lumber
+```
+
 ## Usage
 
 ```shell
