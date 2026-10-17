@@ -56,15 +56,17 @@ docs:
     A connection to a port can say where on the face it is made, with two
     parameters of `cuboid` that it sets in `toParams`, in millimetres:
 
-    * `fromEdge`: how far along the port's X. From the middle of an edge, that
-      is in from the edge along the line down the middle of the face;
-    * `drive`: how far into the material.
+    * `fromEdge`: how far the connection is moved along the port's X. At the
+      middle of an edge, X points into the face, so this is how far in from
+      that edge, along the line down the middle of the face;
+    * `drive`: how far the connection is moved into the material.
 
-    So the middle of an edge, `fromEdge` and `drive` are where a screw or a nail
-    goes into the middle of a face, that far in from an edge and that deep. The
-    `//pub/furniture/workspace/basic` desk drives its screws into the middle of
-    the end of each apron, 1 to 4-1/2 in. down from its top edge
-    (`y0-x0`, the middle of the end's edge with the top):
+    Together with the middle of an edge, they say where a screw or a nail goes
+    into the middle of a face: that far in from the edge, and that deep. The
+    `//pub/furniture/workspace/basic` desk stands its aprons on edge with
+    their X = 0 face up, and drives its screws into the middle of the end of
+    each apron, 1 to 4-1/2 in. down from that face: from `y0-x0`, the middle of
+    the edge the end (Y = 0) shares with the X = 0 face:
 
     ```yaml
     - part: //pub/svc/commerce/homedepot:screws/sdws22600db
