@@ -49,6 +49,37 @@ edge. So:
 The long edges of `lumber` are eased, so a corner is where two faces would
 meet.
 
+## Where a screw goes in
+
+A connection to a port can say where on the face it is made, with two
+parameters of `cuboid` that it sets in `toParams`, in millimetres:
+
+* `fromEdge`: how far along the port's X. From the middle of an edge, that
+  is in from the edge along the line down the middle of the face;
+* `drive`: how far into the material.
+
+So the middle of an edge, `fromEdge` and `drive` are where a screw or a nail
+goes into the middle of a face, that far in from an edge and that deep. The
+`//pub/furniture/workspace/basic` desk drives its screws into the middle of
+the end of each apron, 1 to 4-1/2 in. down from its top edge
+(`y0-x0`, the middle of the end's edge with the top):
+
+```yaml
+- part: //pub/svc/commerce/homedepot:screws/sdws22600db
+  connect:
+    name: apron
+    to: //pub/std/imperial/dimensional-lumber:cuboid
+    toPort: y0-x0
+    toParams: { fromEdge: 25.4, drive: 63.5 }
+    withPort: tip
+    interferes: leg-1   # driven through the leg on its way in
+```
+
+A connection's `toParams` are read in the frame the two ports meet in, which
+has this port turned round to face the other, so `fromEdge` is declared
+along that frame's Y (the port's own X) and `drive` along its -Z (the
+port's own +Z, into the material).
+
 ```shell
 pc render -t png --with-ports -p width=4 -p height=2 -p length=24 //pub/std/imperial/dimensional-lumber:lumber
 ```
