@@ -109,14 +109,31 @@ docs:
 
     ## Products
 
-    A store advertises the sizes it sells by declaring each product as an
-    instance of `lumber` or `plywood` (an `enrich`) with its own `vendor` and
-    `sku`. See
-    [`//pub/svc/commerce/homedepot`](https://github.com/partcad/svc-commerce-homedepot),
-    whose products the
+    The sizes stores stock are declared once, as the standard sizes they are and
+    nobody's product, in the package
+    [`//pub/std/imperial/dimensional-lumber/stock`](stock/partcad.yaml):
+    `lumber/2x4x8`, `lumber/2x4x12`, `lumber/2x4x20`, `lumber/2x6x8`,
+    `lumber/4x4x8` and `plywood/3-4x4x8`. A store publishes what it sells as an
+    alias of one of them with its own `vendor` and `sku`, as
+    [`//pub/svc/commerce/homedepot`](https://github.com/partcad/svc-commerce-homedepot)
+    and [`//pub/svc/commerce/lowes`](https://github.com/partcad/svc-commerce-lowes)
+    do.
+
+    A part cut to length names the size as its stock, not a store's product, and
+    is bought from whichever store its package lists under `suppliers:` sells
+    that size -- which is how the
     [`//pub/furniture/workspace/basic`](https://github.com/partcad/partcad-furniture-basic)
-    desk is cut from. A part cut to length from one names that product as its
-    stock.
+    desk is bought from either store:
+
+    ```yaml
+    manufacturing:
+      method: subtractive
+      source: //pub/std/imperial/dimensional-lumber/stock:lumber/4x4x8
+      cut:
+        cuts:
+          - along: +Y
+            length: $length in
+    ```
 
 interfaces:
   # The box a piece of lumber or a panel fills, with a port at every corner and

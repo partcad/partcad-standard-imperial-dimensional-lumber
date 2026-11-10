@@ -1,0 +1,81 @@
+# The sizes stores stock, as the standard sizes they are, and nobody's product.
+#
+# A store publishes what it sells as an alias of one of these, with its own
+# vendor and SKU: Home Depot's 8 ft. 4x4 is
+#
+#   lumber/4x4x8:
+#     type: alias
+#     source: //pub/std/imperial/dimensional-lumber/stock:lumber/4x4x8
+#     vendor: homedepot
+#     sku: "202094374"
+#
+# and Lowe's is the same with Lowe's SKU. A part cut from one names the size
+# here as its stock, and is then bought from whichever of the stores its
+# package lists under 'suppliers:' has it: PartCAD counts a size as bought when
+# a store's alias of it is loaded, and hands each store the SKU it sells it as.
+#
+# A package of its own, beside the standard rather than in it, so that the
+# standard's README - which shows every part it declares - stays about the
+# two parametric parts.
+partcad: ">=0.8.78"  # parametric interfaces, as the standard
+name: //pub/std/imperial/dimensional-lumber/stock
+desc: >
+  The sizes of dimensional lumber and plywood stores stock, as the standard
+  sizes they are. Stores publish their products as aliases of these.
+
+manufacturable: false
+
+parts:
+  lumber/2x4x8:
+    desc: 2x4, 8 ft. (1-1/2 x 3-1/2 x 96 in.)
+    type: enrich
+    source: //pub/std/imperial/dimensional-lumber:lumber
+    with:
+      width: 4
+      height: 2
+      length: 96
+
+  lumber/2x4x12:
+    desc: 2x4, 12 ft. (1-1/2 x 3-1/2 x 144 in.)
+    type: enrich
+    source: //pub/std/imperial/dimensional-lumber:lumber
+    with:
+      width: 4
+      height: 2
+      length: 144
+
+  lumber/2x4x20:
+    desc: 2x4, 20 ft. (1-1/2 x 3-1/2 x 240 in.)
+    type: enrich
+    source: //pub/std/imperial/dimensional-lumber:lumber
+    with:
+      width: 4
+      height: 2
+      length: 240
+
+  lumber/2x6x8:
+    desc: 2x6, 8 ft. (1-1/2 x 5-1/2 x 96 in.)
+    type: enrich
+    source: //pub/std/imperial/dimensional-lumber:lumber
+    with:
+      width: 6
+      height: 2
+      length: 96
+
+  lumber/4x4x8:
+    desc: 4x4, 8 ft. (3-1/2 x 3-1/2 x 96 in.)
+    type: enrich
+    source: //pub/std/imperial/dimensional-lumber:lumber
+    with:
+      width: 4
+      height: 4
+      length: 96
+
+  plywood/3-4x4x8:
+    desc: 3/4 in. plywood, 4 x 8 ft. (sold as 23/32 in.; 23/32 x 48 x 96 in.)
+    type: enrich
+    source: //pub/std/imperial/dimensional-lumber:plywood
+    with:
+      width: 48
+      length: 96
+      thickness: 0.75
